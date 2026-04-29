@@ -3,6 +3,7 @@
 This repository contains MATLAB, Python, R, and shell scripts supporting the following work:
 
 > **Individualized network topography in pre-adolescent children and adults using naturalistic precision fMRI**
+
 > First-author and script creation: Shefali Rai
 > Under Review
 > BioRxiv DOI: https://doi.org/10.64898/2026.03.05.709899

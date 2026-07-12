@@ -73,9 +73,9 @@ Computes surface area and HCP overlap network assignment for each participant to
 
 ## Revision Analyses
 
-Scripts in `revisions/` are added to look into effects of head motion, 
-split analyses in the main manuscript by motion groups, and varying amounts of data length/scan time. 
-Paths at the top of each script point to local directories/paths. 
+Scripts in `revisions/` are added to look into effects of head motion,
+split analyses in the main manuscript by motion groups, and varying amounts of data length/scan time.
+Paths at the top of each script point to local directories/paths.
 Motion groups are LMA (low-motion adults), LMC (low-motion children), and HMC (high-motion children).
 
 ### Surface Area
@@ -89,14 +89,10 @@ Within-motion-group age-by-network surface-area models.
 Per-network group density maps for each motion group at 60 and 9 minutes.
 
 **`MakeProportion_FromDensity_60min.py`** *(Python)*
-<<<<<<< HEAD
-Converts density maps to proportion (density / N) so motion groups of different sizes are comparable.
+Converts density maps to proportion (density / N) so motion groups of different sizes can be compared.
 
 **`Figure3_MotionGroups_DensityMaps.m` / `Figure3_MotionGroups_ProportionMaps.m`**
 Apply Connectome Workbench palettes to the density and proportion maps for figures.
-=======
-Converts density maps to proportion (density / N) so motion groups of different sizes can be compared.
->>>>>>> 9bebf30b82fc205bd8a10e22dadd62a8f8bfdbdf
 
 **`FamilyMatched_LMA10_Figure_and_Table.py`** *(Python)*
 Family-matched low-motion comparison (low-motion children vs their parents) of network spatial spread.
@@ -118,28 +114,6 @@ Mean entropy across data lengths (9, 15, 30, 60 minutes) by motion group.
 **`NMI_IncreasingData_Stats.R`**
 Split-half NMI reliability across data lengths by motion group.
 
-<<<<<<< HEAD
-=======
-### Network Fragmentation (TBD...)
-
-**`NetworkFragmentation_9vs60min.py`** *(Python)*
-Counts contiguous surface clusters per network per subject at 9 vs 60 minutes, looking how disconnected patches/holes are.
-
-**`Fragmentation_MixedModel.R` / `Fragmentation_LowMotionOnly.R`**
-Mixed models of fragmentation by data length and group, for the full sample and low-motion subjects only.
-
-**`Fragmentation_IndividualDMN_AllGroups.py` / `Fragmentation_Montage.py`** *(Python)*
-Individual DMN fragment maps just for quick viz.
-
-### Assignment Differences at 9 Minutes
-
-**`Make9min_Figure4_Inputs.py`** *(Python)*
-Builds 9-minute per-subject binary assignment maps and child-minus-adult proportion difference maps.
-
-**`Vertexwise_MixedEffect_LogReg_NetworkFrequency_9min.R`**
-Vertex-wise logistic regression of child vs adult network assignment at 9 minutes.
-
->>>>>>> 9bebf30b82fc205bd8a10e22dadd62a8f8bfdbdf
 ### Similarity
 
 **`FamilialSimilarity_SexDyad.R` / `WithinGroup_SexDyad.R`**
@@ -162,4 +136,4 @@ Matched-censoring split-half network maps at 9, 15, and 30 minutes. `arc_cluster
 
 ## Citation
 
-If you use these scripts, please cite our bio archive doi: https://doi.org/10.64898/2026.03.05.709899
+If you use these scripts, please cite our bio archive doi: https://doi.org/10.64898/2026.03.05.709899 

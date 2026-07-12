@@ -80,15 +80,6 @@ children), and HMC (high-motion children).
 
 ### Surface Area
 
-**`Compute_TrueSurfaceArea_9min.py`** *(Python)*
-Computes area-weighted network surface-area proportions at 9 and 60 minutes using each subject's individual per-vertex surface areas, so both data lengths are directly comparable.
-
-**`SurfaceArea_9min_SupplementalTable.R`**
-Per-network surface-area model (age group + head motion + sex) at 9 minutes, with 60 minutes as a reproduction check; FDR-corrected across networks.
-
-**`SurfaceArea_TrueArea_Figures.R`**
-Surface-area figures across motion groups at 9 vs 60 minutes, and child vs adult at 9 minutes.
-
 **`SurfaceArea_AgeByNetwork.R`**
 Within-motion-group age-by-network surface-area models.
 
@@ -97,14 +88,11 @@ Within-motion-group age-by-network surface-area models.
 **`CreateMotionGroup_DensityMaps.py` / `CreateMotionGroup_DensityMaps_9min.py`** *(Python)*
 Per-network group density maps for each motion group at 60 and 9 minutes.
 
-**`CreateMotionGroup_DensityDiffMaps_60vs9min.py`** *(Python)*
-Proportion difference maps (60 minus 9 minutes) per network per motion group.
-
 **`MakeProportion_FromDensity_60min.py`** *(Python)*
 Converts density maps to proportion (density / N) so motion groups of different sizes are comparable.
 
-**`Figure3_MotionGroups_ProportionMaps.m` / `Figure3_MotionGroups_DensityDiffMaps_60vs9min.m`**
-Apply Connectome Workbench palettes to the proportion and difference maps for figures.
+**`Figure3_MotionGroups_DensityMaps.m` / `Figure3_MotionGroups_ProportionMaps.m`**
+Apply Connectome Workbench palettes to the density and proportion maps for figures.
 
 **`FamilyMatched_LMA10_Figure_and_Table.py`** *(Python)*
 Family-matched low-motion comparison (low-motion children vs their parents) of network spatial spread.
@@ -117,9 +105,6 @@ Group-mean vertex-wise entropy maps for children and adults at 9 and 60 minutes.
 **`Figure5_PanelB_Vertexwise_Entropy_9min.py`** *(Python)*
 Per-vertex mixed model of entropy (child vs adult) at 9 minutes.
 
-**`Figure5_MeanEntropy_Corrected_Reliability.py`** *(Python)*
-Mean-entropy model with connectome reliability as a covariate and a mediation of age through reliability.
-
 **`Figure5_Entropy_NMIcontrol.py`** *(Python)*
 Mean entropy controlled for topographic reliability (30-minute split-half NMI) and head motion.
 
@@ -128,25 +113,6 @@ Mean entropy across data lengths (9, 15, 30, 60 minutes) by motion group.
 
 **`NMI_IncreasingData_Stats.R`**
 Split-half NMI reliability across data lengths by motion group.
-
-### Network Fragmentation
-
-**`NetworkFragmentation_9vs60min.py`** *(Python)*
-Counts contiguous surface clusters per network per subject at 9 vs 60 minutes, indexing how disconnected patches consolidate with more data.
-
-**`Fragmentation_MixedModel.R` / `Fragmentation_LowMotionOnly.R`**
-Mixed models of fragmentation by data length and group, for the full sample and low-motion subjects only.
-
-**`Fragmentation_IndividualDMN_AllGroups.py` / `Fragmentation_Montage.py`** *(Python)*
-Individual DMN fragment maps and montage figures by motion group.
-
-### Assignment Differences at 9 Minutes
-
-**`Make9min_Figure4_Inputs.py`** *(Python)*
-Builds 9-minute per-subject binary assignment maps and child-minus-adult proportion difference maps.
-
-**`Vertexwise_MixedEffect_LogReg_NetworkFrequency_9min.R`**
-Vertex-wise logistic regression of child vs adult network assignment at 9 minutes.
 
 ### Similarity
 

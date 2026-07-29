@@ -198,6 +198,6 @@ p <- ggplot() +
   )
 
 
-ggsave(file.path(out_dir, "NMI_Trajectory_9_15_30min.pdf"),
-       plot = p, width = 7, height = 5.5, dpi = 300)
+ggsave(file.path(out_dir, "NMI_Trajectory_9_15_30min.svg"),
+       plot = p, width = 6.5, height = 5.5, units = "in")
 

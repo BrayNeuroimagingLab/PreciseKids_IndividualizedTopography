@@ -9,6 +9,7 @@ library(ggplot2)
 library(lme4)
 library(lmerTest)
 library(readr)
+library(readxl)
 library(purrr)
 library(broom.mixed)
 library(emmeans)
@@ -16,9 +17,10 @@ library(car)
 
 ciftiTools.setOption("wb_path", "/Applications/workbench/bin_macosx64/wb_command")
 
-base_path <- "/Users/shefalirai/Downloads/HCPOverlap_Sample1/"
-meta_path <- "/Users/shefalirai/Downloads/FC_Vertex_Connectomes/prckids-task_beh.csv"
-out_dir   <- "/Users/shefalirai/Desktop/Paper3/JNeuroSci_Revisions/JNeuroSci_RevisionsResults/"
+base_path   <- "/Users/shefalirai/Downloads/HCPOverlap_Sample1/"
+meta_path   <- "/Users/shefalirai/Downloads/FC_Vertex_Connectomes/prckids-task_beh.csv"
+motion_path <- "/Users/shefalirai/Desktop/Paper3/prckids-motion_beh.xlsx"
+out_dir     <- "/Users/shefalirai/Desktop/Paper3/JNeuroSci_Revisions/JNeuroSci_RevisionsResults/"
 
 task           <- "alltasks"
 network_nums   <- c(1, 2, 3, 5, 7, 8, 9, 10, 11, 12, 16)
@@ -34,6 +36,11 @@ meta <- read_csv(meta_path, show_col_types = FALSE) %>%
   rename(Subject = sub) %>%
   mutate(group = ifelse(group == "C", "Child", "Adult")) %>%
   distinct(Subject, sex)
+
+# head motion = number of censored volumes (FD > 0.15 mm), one value per subject
+motion <- read_excel(motion_path) %>%
+  transmute(Subject = trimws(as.character(sub)),
+            CensoredVolumes = as.numeric(censored_volumes))
 
 load_map <- function(subj) {
   f <- file.path(base_path, paste0(subj, "_", task, "_HCPAdultChild_overlap_sample1_Dice.dscalar.nii"))
@@ -124,20 +131,25 @@ dice_data <- dice_data %>%
   ) %>%
   left_join(meta %>% rename(sex1 = sex), by = c("subj1_clean" = "Subject")) %>%
   left_join(meta %>% rename(sex2 = sex), by = c("subj2_clean" = "Subject")) %>%
+  left_join(motion %>% rename(motion1 = CensoredVolumes), by = c("subj1_clean" = "Subject")) %>%
+  left_join(motion %>% rename(motion2 = CensoredVolumes), by = c("subj2_clean" = "Subject")) %>%
   mutate(
     SexDyad = case_when(
       sex1 == "M" & sex2 == "M" ~ "MM",
       sex1 == "F" & sex2 == "F" ~ "FF",
       TRUE                       ~ "MF"
     ),
-    SexDyad = factor(SexDyad, levels = c("MF", "FF", "MM"))  # MF as reference
+    SexDyad = factor(SexDyad, levels = c("MF", "FF", "MM")),  # MF as reference
+    PairMotion = (motion1 + motion2) / 2  # pair-level motion, since Dice is defined over a pair
   ) %>%
-  select(-subj1_clean, -subj2_clean, -sex1, -sex2)
+  select(-subj1_clean, -subj2_clean, -sex1, -sex2, -motion1, -motion2)
 
-dat <- dice_data %>% filter(!is.na(Dice))
+dat <- dice_data %>%
+  filter(!is.na(Dice)) %>%
+  mutate(PairMotion_z = as.numeric(scale(PairMotion)))  # standardised for interpretable coefficients
 
 # Overall model with SexDyad
-model_dyad <- lmer(Dice ~ GroupComparison * NetworkLabel + SexDyad +
+model_dyad <- lmer(Dice ~ GroupComparison * NetworkLabel + SexDyad + PairMotion_z +
                      (1 | subj1) + (1 | subj2), data = dat)
 
 cat("\n=== Overall model summary ===\n")
@@ -186,7 +198,7 @@ print(ph_sex, row.names = FALSE)
 per_net_models <- dat %>%
   group_split(NetworkLabel) %>%
   set_names(levels(dat$NetworkLabel)) %>%
-  map(~ lmer(Dice ~ GroupComparison * SexDyad + (1 | subj1) + (1 | subj2), data = .x))
+  map(~ lmer(Dice ~ GroupComparison * SexDyad + PairMotion_z + (1 | subj1) + (1 | subj2), data = .x))
 
 per_net_stats <- map_dfr(per_net_models, tidy, .id = "NetworkLabel")
 

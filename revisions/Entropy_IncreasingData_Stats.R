@@ -181,6 +181,6 @@ p <- ggplot() +
     plot.margin        = margin(8, 8, 5, 8)
   )
 
-ggsave(file.path(out_dir, "Entropy_Trajectory_9_15_30_60min.pdf"),
-       plot = p, width = 5.5, height = 5.5, dpi = 300)
+ggsave(file.path(out_dir, "Entropy_Trajectory_9_15_30_60min.svg"),
+       plot = p, width = 6.5, height = 5.5, units = "in")
 

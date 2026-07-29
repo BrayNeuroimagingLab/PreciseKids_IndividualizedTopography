@@ -55,16 +55,13 @@ Creates the overlap map between the two HCP templates for visualization.
 **`HCPOverlap_AllDiceValues_ExtractNetworkValues.m`**
 Extracts the full range of Dice overlap values per network for each participant. Recommended as input for VertexwiseR TFCE analyses, since it preserves the continuous range of values per person.
 
-**`ExtractBinaryNetworks_HCPoverlapnetworks.m`**
-Extracts each network column as a binary mask and saves it separately as a `.dscalar.nii` file. Note: not recommended for VertexwiseR TFCE since the binary output loses within-person variability.
-
 ### Network Proportion & Surface Area
 
-**`NetworkPropDiff_Sample1.m`**
-For each vertex, computes the proportion of children and adults assigned to each network, then visualizes the absolute difference as a `.dscalar` map. Uses output from `EachVertex_ProportionAssignment.py`.
+**`EachVertex_ProportionAssignment_HCPOverlap.py`** *(Python)*
+Computes child-minus-adult network assignment proportions at each vertex and outputs a differences text file used by `NetworkPropDiff_Sample1.m`.
 
-**`EachVertex_ProportionAssignment.py`** *(Python)*
-Computes child-minus-adult network assignment proportions at each vertex and outputs a `differences.txt` file used by `NetworkPropDiff_Sample1.m`.
+**`NetworkPropDiff_Sample1.m`**
+For each vertex, computes the proportion of children and adults assigned to each network, then visualizes the absolute difference as a `.dscalar` map. Uses output from `EachVertex_ProportionAssignment_HCPOverlap.py`.
 
 **`SurfaceArea_Gradiation.m`**
 Computes surface area and HCP overlap network assignment for each participant to generate gradiation (density) maps across all individuals — not averaged across participants.
@@ -73,9 +70,9 @@ Computes surface area and HCP overlap network assignment for each participant to
 
 ## Revision Analyses
 
-Scripts in `revisions/` are added to look into effects of head motion, 
-split analyses in the main manuscript by motion groups, and varying amounts of data length/scan time. 
-Paths at the top of each script point to local directories/paths. 
+Scripts in `revisions/` are added to look into effects of head motion,
+split analyses in the main manuscript by motion groups, and varying amounts of data length/scan time.
+Paths at the top of each script point to local directories/paths.
 Motion groups are LMA (low-motion adults), LMC (low-motion children), and HMC (high-motion children).
 
 ### Surface Area
@@ -85,18 +82,14 @@ Within-motion-group age-by-network surface-area models.
 
 ### Density and Proportion Maps
 
-**`CreateMotionGroup_DensityMaps.py` / `CreateMotionGroup_DensityMaps_9min.py`** *(Python)*
-Per-network group density maps for each motion group at 60 and 9 minutes.
+**`CreateMotionGroup_DensityMaps.py`** *(Python)*
+Per-network group density maps for each motion group.
 
 **`MakeProportion_FromDensity_60min.py`** *(Python)*
-<<<<<<< HEAD
-Converts density maps to proportion (density / N) so motion groups of different sizes are comparable.
+Converts density maps to proportion (density / N) so motion groups of different sizes can be compared.
 
 **`Figure3_MotionGroups_DensityMaps.m` / `Figure3_MotionGroups_ProportionMaps.m`**
 Apply Connectome Workbench palettes to the density and proportion maps for figures.
-=======
-Converts density maps to proportion (density / N) so motion groups of different sizes can be compared.
->>>>>>> 9bebf30b82fc205bd8a10e22dadd62a8f8bfdbdf
 
 **`FamilyMatched_LMA10_Figure_and_Table.py`** *(Python)*
 Family-matched low-motion comparison (low-motion children vs their parents) of network spatial spread.
@@ -106,8 +99,8 @@ Family-matched low-motion comparison (low-motion children vs their parents) of n
 **`Figure5_PanelA_GroupMeanEntropy.py`** *(Python)*
 Group-mean vertex-wise entropy maps for children and adults at 9 and 60 minutes.
 
-**`Figure5_PanelB_Vertexwise_Entropy_9min.py`** *(Python)*
-Per-vertex mixed model of entropy (child vs adult) at 9 minutes.
+**`LMMStats_Entropy_LMAvsLMC_60min_balanced.py`** *(Python)*
+Per-vertex mixed model of entropy between low-motion children and a size-matched group of low-motion adults (n=10 each).
 
 **`Figure5_Entropy_NMIcontrol.py`** *(Python)*
 Mean entropy controlled for topographic reliability (30-minute split-half NMI) and head motion.
@@ -118,28 +111,17 @@ Mean entropy across data lengths (9, 15, 30, 60 minutes) by motion group.
 **`NMI_IncreasingData_Stats.R`**
 Split-half NMI reliability across data lengths by motion group.
 
-<<<<<<< HEAD
-=======
-### Network Fragmentation (TBD...)
+### Network Fragmentation
 
 **`NetworkFragmentation_9vs60min.py`** *(Python)*
-Counts contiguous surface clusters per network per subject at 9 vs 60 minutes, looking how disconnected patches/holes are.
+Counts spatially contiguous clusters (fragments >= 15 mm2) per network at 9 and 60 minutes, for every participant.
 
-**`Fragmentation_MixedModel.R` / `Fragmentation_LowMotionOnly.R`**
-Mixed models of fragmentation by data length and group, for the full sample and low-motion subjects only.
+**`Fragmentation_PairedTests_Figure.R`**
+Mixed model per network testing the change in fragment count between 9 and 60 minutes, with FDR correction across networks.
 
-**`Fragmentation_IndividualDMN_AllGroups.py` / `Fragmentation_Montage.py`** *(Python)*
-Individual DMN fragment maps just for quick viz.
+**`Exemplar_NetworkConjunction_9vs60.py`** *(Python)*
+Conjunction maps for exemplar participants showing where a network is stable across both data lengths, present only at 9 minutes, or only at 60 minutes.
 
-### Assignment Differences at 9 Minutes
-
-**`Make9min_Figure4_Inputs.py`** *(Python)*
-Builds 9-minute per-subject binary assignment maps and child-minus-adult proportion difference maps.
-
-**`Vertexwise_MixedEffect_LogReg_NetworkFrequency_9min.R`**
-Vertex-wise logistic regression of child vs adult network assignment at 9 minutes.
-
->>>>>>> 9bebf30b82fc205bd8a10e22dadd62a8f8bfdbdf
 ### Similarity
 
 **`FamilialSimilarity_SexDyad.R` / `WithinGroup_SexDyad.R`**

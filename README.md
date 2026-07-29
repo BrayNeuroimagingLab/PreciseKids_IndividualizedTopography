@@ -144,4 +144,4 @@ Matched-censoring split-half network maps at 9, 15, and 30 minutes. `arc_cluster
 
 ## Citation
 
-If you use these scripts, please cite our bio archive doi: https://doi.org/10.64898/2026.03.05.709899
+If you use these scripts, please cite our bio archive doi: https://doi.org/10.64898/2026.03.05.709899 

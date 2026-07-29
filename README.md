@@ -18,7 +18,7 @@ This repository covers  **individualized network topography** analyses using nat
 PreciseKids_IndividualizedTopography/
 ├── scripts/        # MATLAB, Python, R, and shell analysis scripts
 ├── revisions/      # Revision analysis scripts (age, motion, and data length)
-├── data/           # Supporting data files
+├── data/           # HCP overlap network files (as dscalars)
 └── README.md
 ```
 
@@ -39,21 +39,21 @@ PreciseKids_IndividualizedTopography/
 ### Network Map Generation
 
 **`MatchedCensoring_NetworkMaps_Allsubs.m`**
-Censors data across all tasks and sessions, then uses a sliding-window approach to randomly draw matched sections of usable (good) and censored data equally across sessions into two independent samples (Sample 1 and Sample 2). Note: since sampling is still within-session, this is split-half iterative sampling rather than true test-retest.
+Censors data across all tasks and sessions, then uses a sliding-window approach to randomly draw matched sections of usable (good) and censored data equally across sessions into two independent samples. Note: since sampling is still within-session, this is split-half.
 
 **`createMaxDice_WinnerTakeAll.m`**
-Creates a group-average network map using a winner-take-all (median) approach across participants. Used to generate the visual children and adult average maps.
+Creates a group-average network map using a winner-take-all approach across participants. Used to create children and adult average maps.
 
 ### HCP Template Comparisons
 
 **`HCP_overlapbetweentemplates.m`**
-Quantifies the overlap between the Dworetsky HCP adult template and the HCP 8–9 year old template.
+Quantifies the overlap between the Dworetsky HCP adult template and the HCP 8-9 year old template.
 
 **`HCP_overlaptemplate_creation.m`**
-Creates the overlap map between the two HCP templates for visualization.
+Creates the overlap map between the two HCP templates.
 
 **`HCPOverlap_AllDiceValues_ExtractNetworkValues.m`**
-Extracts the full range of Dice overlap values per network for each participant. Recommended as input for VertexwiseR TFCE analyses, since it preserves the continuous range of values per person.
+Extracts the full range of Dice overlap values per network for each participant.
 
 ### Network Proportion & Surface Area
 
@@ -64,15 +64,14 @@ Computes child-minus-adult network assignment proportions at each vertex and out
 For each vertex, computes the proportion of children and adults assigned to each network, then visualizes the absolute difference as a `.dscalar` map. Uses output from `EachVertex_ProportionAssignment_HCPOverlap.py`.
 
 **`SurfaceArea_Gradiation.m`**
-Computes surface area and HCP overlap network assignment for each participant to generate gradiation (density) maps across all individuals — not averaged across participants.
+Computes surface area and HCP overlap network assignment for each participant to generate gradiation (density) maps across all individuals.
 
 ---
 
 ## Revision Analyses
 
-Scripts in `revisions/` are added to look into effects of head motion,
-split analyses in the main manuscript by motion groups, and varying amounts of data length/scan time.
-Paths at the top of each script point to local directories/paths.
+Scripts in `revisions/` are added for effects of head motion,
+split analyses in the main manuscript by motion groups, and impact of data quantity as varying amounts of data length/scan time.
 Motion groups are LMA (low-motion adults), LMC (low-motion children), and HMC (high-motion children).
 
 ### Surface Area
@@ -86,13 +85,13 @@ Within-motion-group age-by-network surface-area models.
 Per-network group density maps for each motion group.
 
 **`MakeProportion_FromDensity_60min.py`** *(Python)*
-Converts density maps to proportion (density / N) so motion groups of different sizes can be compared.
+Converts density maps to proportion (density/N) so motion groups of different sizes can be compared.
 
 **`Figure3_MotionGroups_DensityMaps.m` / `Figure3_MotionGroups_ProportionMaps.m`**
 Apply Connectome Workbench palettes to the density and proportion maps for figures.
 
 **`FamilyMatched_LMA10_Figure_and_Table.py`** *(Python)*
-Family-matched low-motion comparison (low-motion children vs their parents) of network spatial spread.
+Family-matched low-motion comparison (low-motion children vs their parents; n=10 to match children n) of network spatial spread.
 
 ### Assignment Confidence (Entropy) and Reliability
 
@@ -100,16 +99,16 @@ Family-matched low-motion comparison (low-motion children vs their parents) of n
 Group-mean vertex-wise entropy maps for children and adults at 9 and 60 minutes.
 
 **`LMMStats_Entropy_LMAvsLMC_60min_balanced.py`** *(Python)*
-Per-vertex mixed model of entropy between low-motion children and a size-matched group of low-motion adults (n=10 each).
+Per-vertex mixed model of entropy between low-motion children and low-motion adults (n=10 each).
 
 **`Figure5_Entropy_NMIcontrol.py`** *(Python)*
-Mean entropy controlled for topographic reliability (30-minute split-half NMI) and head motion.
+Mean entropy controlled for topographic reliability (30-minute NMI) and head motion.
 
 **`Entropy_IncreasingData_Stats.R`**
 Mean entropy across data lengths (9, 15, 30, 60 minutes) by motion group.
 
 **`NMI_IncreasingData_Stats.R`**
-Split-half NMI reliability across data lengths by motion group.
+NMI reliability across data lengths by motion group.
 
 ### Network Fragmentation
 
@@ -117,17 +116,17 @@ Split-half NMI reliability across data lengths by motion group.
 Counts spatially contiguous clusters (fragments >= 15 mm2) per network at 9 and 60 minutes, for every participant.
 
 **`Fragmentation_PairedTests_Figure.R`**
-Mixed model per network testing the change in fragment count between 9 and 60 minutes, with FDR correction across networks.
+Mixed model for fragment count (per net) between 9 and 60 minutes, with FDR corr.
 
 **`Exemplar_NetworkConjunction_9vs60.py`** *(Python)*
-Conjunction maps for exemplar participants showing where a network is stable across both data lengths, present only at 9 minutes, or only at 60 minutes.
+Conjunction maps for exemplar participants showing where a network is stable across both data lengths, present only at 9 minutes, or only at 60 minutes. Only visualized 1 exemplar child for the manuscript. 
 
 ### Similarity
 
 **`FamilialSimilarity_SexDyad.R` / `WithinGroup_SexDyad.R`**
-Related vs unrelated (and within-group) Dice similarity, recoded by sex dyad instead now (MM / FF / MF).
+Related vs unrelated (and within-group) Dice similarity, recoded by new sex dyad coding as per revisions (MM / FF / MF).
 
-### Split-Half Sampling (cluster)
+### Split-Half Sampling (HPC)
 
 **`MatchedCensoring_NetworkMaps_Revisions9min_SplitHalf.m` / `15min` / `30min`**
 Matched-censoring split-half network maps at 9, 15, and 30 minutes. `arc_cluster_scripts/` contains SLURM and shell job scripts.
